@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandella Clicker</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .counter {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .click-button {
+            width: 150px;
+            height: 150px;
+            border: none;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            outline: none;
+        }
+        .floating-image {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            animation: floatUp 1s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Mandella Clicker</h1>
+    <div class="counter">Clicks: <span id="count">0</span></div>
+    <button id="clickButton" class="click-button"></button>
+    
+    <script>
+        let count = localStorage.getItem("clickCount") ? parseInt(localStorage.getItem("clickCount")) : 0;
+        document.getElementById("count").textContent = count;
+        document.getElementById("clickButton").style.backgroundImage = "url('IMG_8902.PNG')";
+
+        document.getElementById("clickButton").addEventListener("click", function(event) {
+            count++;
+            document.getElementById("count").textContent = count;
+            localStorage.setItem("clickCount", count); // Save count to local storage
+            
+            let floatingImage = document.createElement("div");
+            floatingImage.classList.add("floating-image");
+            floatingImage.style.backgroundImage = "url('IMG_8902.PNG')";
+            floatingImage.style.left = `${event.clientX - 25}px`;
+            floatingImage.style.top = `${event.clientY - 25}px`;
+            document.body.appendChild(floatingImage);
+            
+            setTimeout(() => {
+                floatingImage.remove();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+
